@@ -135,7 +135,6 @@ mkdir -p "${OUTDIR}"
 
 ## OUTFORMAT
 ############
-[ -z "${OUTFORMAT}"+x ] && echo "Empty" || echo "Full"
 if [ -z "${OUTFORMAT+x}" ]; then
   # use default (pdf) if user did not specify
   OUTFORMAT="pdf"
