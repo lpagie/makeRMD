@@ -130,11 +130,6 @@ if [ -z ${OUTDIR+x} ]; then
   # create new name based on inputfilename+tag
   OUTDIR="${INFILE%.*}_${TAG}"
 fi
-if [ -d ${OUTDIR} ]; then 
-  # output directory exists already; abort
-  echo -e "directory for output (${OUTDIR}) already exists; will not overwrite.\nAborting"
-  usage
-fi
 # create dir
 mkdir -p "${OUTDIR}"
 
