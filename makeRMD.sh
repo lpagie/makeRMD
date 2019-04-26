@@ -130,8 +130,12 @@ if [ -z ${OUTDIR+x} ]; then
   # create new name based on inputfilename+tag
   OUTDIR="${INFILE%.*}_${TAG}"
 fi
+# make OUTDIR path absolute
 # create dir
 mkdir -p "${OUTDIR}"
+echo -e "outdir = ${OUTDIR}"
+OUTDIR="`cd \"$OUTDIR\" 2>/dev/null && pwd || echo \"$OUTDIR\"`"
+echo -e "outdir2 = ${OUTDIR}"
 
 ## OUTFORMAT
 ############
