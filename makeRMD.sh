@@ -192,7 +192,7 @@ fi
 # output_file=OUTFILE
 # output_dir=OUTDIR
 
-RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"${OUTDIR}\")"
+RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", run_pandoc=T, clean=F)"
 echo -e "command for Rscript = ${RCMD}"
 Rscript -e "${RCMD}"
 # Rscript -e "rmarkdown::render('sample.Rmd')"
