@@ -54,10 +54,10 @@ usage() {
 while getopts "h?d:o:f:v" opt; do
   case $opt in
     o)
-      OUTDIR=$OPTARG;
+      OUTFILE=$OPTARG;
       ;;
     d)
-      OUTFILE=$OPTARG;
+      OUTDIR=$OPTARG;
       ;;
     f)
       OUTFORMAT=$OPTARG;
