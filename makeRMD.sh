@@ -20,7 +20,7 @@
 #         Default: pdf
 #     -v: print debug info
 # INPUT:
-#   Rmarkdown file
+#   Rmarkdown or markdown file
 # OUTPUT:
 #   pdf or html documents
 #   All output is stored in a subdirectory. This directory is named after the
@@ -79,7 +79,7 @@ shift $(( OPTIND - 1 ))
 # CONFIGURE INPUT FILES
 # check we have exactly 1 remaining argument
 if [ ! $# -eq 1 ]; then
-  echo -e "\nerror: no, or too many, arguments left after options are parsed (should be a single Rmarkdown filename):"
+  echo -e "\nerror: no, or too many, arguments left after options are parsed (should be a single (R)markdown filename):"
   while test $# -gt 0; do
     echo $1
     shift
@@ -103,14 +103,14 @@ fi
 extension="${INFILE##*.}"
 # determine input format
 case ${extension} in
-  Rmd)
+  Rmd|md)
     INFORMAT="md";
     ;;
   Rhtml)
     INFORMAT="html";
     ;;
   *)
-    echo -e "filename extension (${extension}) unknown; allowed extensions are: Rmd, Rhtml.\nAborting\n\n"
+    echo -e "filename extension (${extension}) unknown; allowed extensions are: Rmd, md, Rhtml.\nAborting\n\n"
     usage
     ;;
 esac
