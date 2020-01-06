@@ -36,6 +36,8 @@
 # TODO
 #   
 
+RSCRIPT=Rscript
+
 TAG=""
 
 # PARSE OPTIONS
@@ -87,6 +89,10 @@ while getopts "h?d:o:f:tv" opt; do
   esac
 done
 shift $(( OPTIND - 1 ))
+
+# check we have Rscript installed
+command -v ${RSCRIPT} >/dev/null 2>&1 || { echo >&2 "${RSCRIPT} command not found"; usage; }
+
 
 # CONFIGURE INPUT FILES
 # check we have exactly 1 remaining argument
@@ -206,6 +212,5 @@ fi
 
 RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", run_pandoc=T, clean=F)"
 echo -e "command for Rscript = ${RCMD}"
-/usr/bin/Rscript -e "${RCMD}"
-# Rscript -e "rmarkdown::render('sample.Rmd')"
+${RSCRIPT} -e "${RCMD}"
 
