@@ -18,6 +18,8 @@
 #         Default: same as input filename with extension .pdf/.html
 #     -f: output  file format (pdf/html)
 #         Default: pdf
+#     -t: tag output filename with initial/date
+#         Default: no tag
 #     -v: print debug info
 # INPUT:
 #   Rmarkdown or markdown file
@@ -34,24 +36,25 @@
 # TODO
 #   
 
-TAG="LP$( date +"%y%m%d_%H%M" )"
+TAG=""
 
 # PARSE OPTIONS
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 USAGE=
 usage() {
-  echo >&2 "usage: ${SCRIPTNAME} -[dofvh] input-filename"
+  echo >&2 "usage: ${SCRIPTNAME} -[doftvh] input-filename"
   echo >&2 "OPTIONS:"
   echo >&2 "  -d: directory for all output files (unless -o)"
   echo >&2 "  -o: filename of 'final' outputfile [default same as input with different extension"
   echo >&2 "  -f: file format of output doc [default: pdf; options: pdf/html]"
+  echo >&2 "  -t: add inital/date-tag to file/dir-names [default: no tags added]"
   echo >&2 "  -v: verbose output"
   echo >&2 "  input-filename: last argument, Rmarkdown document"
   echo >&2 "  -h: print this message"
   echo >&2 ""
   exit 1;
 }
-while getopts "h?d:o:f:v" opt; do
+while getopts "h?d:o:f:tv" opt; do
   case $opt in
     o)
       OUTFILE=$OPTARG;
@@ -61,6 +64,9 @@ while getopts "h?d:o:f:v" opt; do
       ;;
     f)
       OUTFORMAT=$OPTARG;
+      ;;
+    t)
+      TAG="_LP$( date +"%y%m%d_%H%M" )"
       ;;
     v)
       VERBOSE=1;
@@ -128,7 +134,7 @@ INFILE="`cd \"$D\" 2>/dev/null && pwd || echo \"$D\"`/$B"
 if [ -z ${OUTDIR+x} ]; then
   # OUTDIR is not specified by user
   # create new name based on inputfilename+tag
-  OUTDIR="${INFILE%.*}_${TAG}"
+  OUTDIR="${INFILE%.*}${TAG}"
 fi
 # make OUTDIR path absolute
 # create dir
@@ -167,7 +173,7 @@ esac
 if [ -z ${OUTFILE+x} ]; then
   # OUTFILE not specified by user; built based on inputfile
   BASE=$( basename ${INFILE} )
-  OUTFILE="${OUTDIR}/${BASE%.*}_${TAG}.${OUTEXTENSION}"
+  OUTFILE="${OUTDIR}/${BASE%.*}${TAG}.${OUTEXTENSION}"
 else
   # make user supplied output file have absolute path
   # Make name of input file absolute
