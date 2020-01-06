@@ -52,6 +52,12 @@ usage() {
   echo >&2 "  input-filename: last argument, Rmarkdown document"
   echo >&2 "  -h: print this message"
   echo >&2 ""
+  echo >&2 "A wrapper around R,rmarkdown::render, to render (R)md documents to pdf[html] documents (-f)"
+  echo >&2 "It takes a single (R)markdown file as input and generates a self-contained output doc"
+  echo >&2 "All intermediate output is stored in a subdirectory with the same name as the input filename (without extension)"
+  echo >&2 "Output directory name, output filename can be set explicitly by user (-d/-o)"
+  echo >&2 "Output dir/filename can be extended with an initial/date tag (-t)"
+  echo >&2 ""
   exit 1;
 }
 while getopts "h?d:o:f:tv" opt; do
