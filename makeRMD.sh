@@ -132,6 +132,12 @@ case ${extension} in
     usage
     ;;
 esac
+## KEEP/DISCARD INTERMEDIATES
+if [[ ${extension} -eq "md" ]]; then
+  CLEAN="TRUE"   # do NOT keep intermediate files, incl utf8.md file
+else
+  CLEAN="FALSE"   # DO keep intermediate files, incl markdown file
+fi
 unset extension
 
 # Make name of input file absolute
@@ -210,7 +216,7 @@ fi
 # output_file=OUTFILE
 # output_dir=OUTDIR
 
-RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", run_pandoc=T, clean=F)"
+RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", run_pandoc=T, clean=${CLEAN})"
 echo -e "command for Rscript = ${RCMD}"
 ${RSCRIPT} -e "${RCMD}"
 
