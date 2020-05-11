@@ -48,7 +48,7 @@ usage() {
   echo >&2 "OPTIONS:"
   echo >&2 "  -d: directory for all output files (unless -o)"
   echo >&2 "  -o: filename of 'final' outputfile [default same as input with different extension"
-  echo >&2 "  -f: file format of output doc [default: pdf; options: pdf/html]"
+  echo >&2 "  -f: file format of output doc [default: pdf; options: pdf/html/all]"
   echo >&2 "  -t: add inital/date-tag to file/dir-names [default: no tags added]"
   echo >&2 "  -v: verbose output"
   echo >&2 "  input-filename: last argument, Rmarkdown document"
@@ -179,9 +179,13 @@ case "${OUTFORMAT}" in
     OUTFORMAT="html_document"
     OUTEXTENSION="html"
     ;;
+  all)
+    # this is allowed
+    OUTFORMAT="all"
+    ;;
   *)
     # all other formats are not allowed
-    echo -e "supplied output format (${OUTFORMAT}) is not allowed (allowed options are: pdf/html).\nAborting"
+    echo -e "supplied output format (${OUTFORMAT}) is not allowed (allowed options are: pdf/html/all).\nAborting"
     usage
     ;;
 esac
@@ -191,7 +195,8 @@ esac
 if [ -z ${OUTFILE+x} ]; then
   # OUTFILE not specified by user; built based on inputfile
   BASE=$( basename ${INFILE} )
-  OUTFILE="${OUTDIR}/${BASE%.*}${TAG}.${OUTEXTENSION}"
+  # OUTFILE="${OUTDIR}/${BASE%.*}${TAG}.${OUTEXTENSION}"
+  OUTFILE="${OUTDIR}/${BASE%.*}${TAG}"
 else
   # make user supplied output file have absolute path
   # Make name of input file absolute
