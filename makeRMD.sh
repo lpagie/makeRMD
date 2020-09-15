@@ -36,7 +36,7 @@
 # TODO
 #   
 
-RSCRIPT=Rscript
+RSCRIPT=/usr/bin/Rscript
 
 TAG=""
 
@@ -48,7 +48,7 @@ usage() {
   echo >&2 "OPTIONS:"
   echo >&2 "  -d: directory for all output files (unless -o)"
   echo >&2 "  -o: filename of 'final' outputfile [default same as input with different extension"
-  echo >&2 "  -f: file format of output doc [default: pdf; options: pdf/html/all]"
+  echo >&2 "  -f: file format of output doc [default: all; options: pdf/html/all]"
   echo >&2 "  -t: add inital/date-tag to file/dir-names [default: no tags added]"
   echo >&2 "  -v: verbose output"
   echo >&2 "  input-filename: last argument, Rmarkdown document"
@@ -165,7 +165,7 @@ echo -e "outdir2 = ${OUTDIR}"
 ############
 if [ -z "${OUTFORMAT+x}" ]; then
   # use default (pdf) if user did not specify
-  OUTFORMAT="pdf"
+  OUTFORMAT="all"
 fi
 # check output format is in set of allowed formats
 case "${OUTFORMAT}" in
