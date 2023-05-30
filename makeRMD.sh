@@ -37,6 +37,7 @@
 #   
 
 RSCRIPT=/usr/bin/Rscript
+RSCRIPT=Rscript
 
 TAG=""
 
