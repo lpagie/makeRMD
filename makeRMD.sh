@@ -222,7 +222,7 @@ fi
 # output_file=OUTFILE
 # output_dir=OUTDIR
 
-RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", run_pandoc=T, clean=${CLEAN})"
+RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", knit_root_dir=\"$PWD\", run_pandoc=T, clean=${CLEAN})"
 echo -e "command for Rscript = ${RCMD}"
 ${RSCRIPT} -e "${RCMD}"
 
