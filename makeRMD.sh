@@ -51,6 +51,7 @@ usage() {
   echo >&2 "  -o: filename of 'final' outputfile [default same as input with different extension"
   echo >&2 "  -f: file format of output doc [default: all; options: pdf/html/all]"
   echo >&2 "  -t: add inital/date-tag to file/dir-names [default: no tags added]"
+  echo >&2 "  -p: (string) add parameters to render(..) command, eg .... -p \"plot=TRUE, table=TRUE, fname='filename.txt'\""
   echo >&2 "  -v: verbose output"
   echo >&2 "  input-filename: last argument, Rmarkdown document"
   echo >&2 "  -h: print this message"
@@ -63,7 +64,7 @@ usage() {
   echo >&2 ""
   exit 1;
 }
-while getopts "h?d:o:f:tv" opt; do
+while getopts "h?d:o:f:tp:v" opt; do
   case $opt in
     o)
       OUTFILE=$OPTARG;
@@ -76,6 +77,9 @@ while getopts "h?d:o:f:tv" opt; do
       ;;
     t)
       TAG="_LP$( date +"%y%m%d_%H%M" )"
+      ;;
+    p)
+      PARAM=$OPTARG;
       ;;
     v)
       VERBOSE=1;
@@ -210,6 +214,14 @@ if [ ! -d $( dirname "${OUTFILE}" ) ]; then
   mkdir -p $( dirname "${OUTFILE}" )
 fi
 
+## PARAM
+# if not supplied set to 'NULL'
+if [ -x "${PARAM}" ]; then
+  PARAM="NULL"
+else
+  PARAM="list(${PARAM})"
+fi
+
 ## VERBOSE
 if [ -x "${VERBOSE}" ]; then
   VERBOSE=0
@@ -222,7 +234,7 @@ fi
 # output_file=OUTFILE
 # output_dir=OUTDIR
 
-RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", knit_root_dir=\"$PWD\", run_pandoc=T, clean=${CLEAN})"
+RCMD="rmarkdown::render(input=\"${INFILE}\", output_format=\"${OUTFORMAT}\", output_file=\"${OUTFILE}\", output_dir=\"$( dirname "${OUTFILE}" )\", intermediates_dir=\"${OUTDIR}\", knit_root_dir=\"$PWD\", run_pandoc=T, clean=${CLEAN}, params=${PARAM})"
 echo -e "command for Rscript = ${RCMD}"
 ${RSCRIPT} -e "${RCMD}"
 
